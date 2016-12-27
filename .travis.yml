@@ -5,7 +5,9 @@ osx_image: xcode8.2
 
 before_install:
   # Uninstall existing travis brew installation
-  - 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"'
+  - wget -O /tmp/uninstall https://raw.githubusercontent.com/Homebrew/install/master/uninstall
+  - chmod +x /tmp/uninstall
+  - /tmp/uninstall -f
   - rm -rf /usr/local/Homebrew
   - rm -rf /usr/local/Caskroom
   - rm -rf /usr/local/bin/brew
@@ -40,6 +42,6 @@ script:
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
-    
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
