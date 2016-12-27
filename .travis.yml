@@ -8,9 +8,9 @@ before_install:
   - wget -O /tmp/uninstall https://raw.githubusercontent.com/Homebrew/install/master/uninstall
   - chmod +x /tmp/uninstall
   - /tmp/uninstall -f
-  - rm -rf /usr/local/Homebrew
-  - rm -rf /usr/local/Caskroom
-  - rm -rf /usr/local/bin/brew
+  - sudo rm -rf /usr/local/Homebrew
+  - sudo rm -rf /usr/local/Caskroom
+  - sudo rm -rf /usr/local/bin/brew
 
 install:
   # Install pip.
