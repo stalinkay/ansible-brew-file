@@ -1,47 +1,32 @@
----
 sudo: required
 language: objective-c
 osx_image: xcode8.2
-
 before_install:
-  # Uninstall existing travis brew installation
-  - wget -O /tmp/uninstall https://raw.githubusercontent.com/Homebrew/install/master/uninstall
-  - chmod +x /tmp/uninstall
-  - /tmp/uninstall -f
-  - sudo rm -rf /usr/local/Homebrew
-  - sudo rm -rf /usr/local/Caskroom
-  - sudo rm -rf /usr/local/bin/brew
-
+- wget -O /tmp/uninstall https://raw.githubusercontent.com/Homebrew/install/master/uninstall
+- chmod +x /tmp/uninstall
+- "/tmp/uninstall -f"
+- sudo rm -rf /usr/local/Homebrew
+- sudo rm -rf /usr/local/Caskroom
+- sudo rm -rf /usr/local/bin/brew
 install:
-  # Install pip.
-  - sudo easy_install pip
-
-  # Install Ansible.
-  - sudo pip install ansible
-
-  # Add ansible.cfg to pick up roles path.
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-
-  # Add a hosts file.
-  - sudo mkdir -p /etc/ansible
-  - sudo touch /etc/ansible/hosts
-  - "echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null"
-
+- sudo easy_install pip
+- sudo pip install ansible
+- "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+- sudo mkdir -p /etc/ansible
+- sudo touch /etc/ansible/hosts
+- |-
+  echo -e '[local]
+  localhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null
 script:
-  # Check the role/playbook's syntax.
-  - "ansible-playbook tests/test.yml --syntax-check"
+- ansible-playbook tests/test.yml --syntax-check
+- ansible-playbook tests/test.yml
+- idempotence=$(mktemp)
+- ansible-playbook tests/test.yml | tee -a ${idempotence}
+- 'tail ${idempotence} | grep -q ''changed=0.*failed=0'' && (echo ''Idempotence test:
+  pass'' && exit 0) || (echo ''Idempotence test: fail'' && exit 1)
 
-  # Test the playbook.
-  - "ansible-playbook tests/test.yml"
-
-  # Test the playbook's idempotence.
-  - idempotence=$(mktemp)
-  - "ansible-playbook tests/test.yml | tee -a ${idempotence}"
-  - >
-    tail ${idempotence}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-
+'
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  slack:
+    secure: nT2Vc/6VRtwu7mOLS1O5rKynQz5aZrGpSAZzwtXBhqQ2PjNmOtT/jrr8z/whhf0Wz5VJzU8udijGHQvSzddbN3F+XEiJoq4diDSP5wTRkD58frXhvlteZ2X9jiwseWR3zZ5YwTPPq3Aph7wQitgKPMOTjxlAyj0YxYJzqjaWdpJgE31NOddedArx2FE/XKcXJ2a84gzriQHkZp+oHvViSecS3vrMrFRmMk8WyY/vSLttMfqv2eblH3t0+ZBJBKLm1ojuOASp7jcREBmBdWm0+Rm43p8RH4WIZV+XAv25aVfebAILwU8TJQ/dh1kq8XIycSdrVZQ+AHtvk5pgToWiM3LC/xSAII9Hfi1M5qQYBA1CbM4/N1AaETLpJjsKMUZfzhWDWo/ECHYfsmgSDSB0v6+ApNNESeHG1i2OpILHkdzLOAkdoblocezPAZWyVD85BwQkYzE7CVzEuUnwKjrFf+m2pTWXjXw26vgRaIq9DKmVj3swyfK0LnbEbDzUb4AfXecSviDbbQx4g6as9GRZaoJMnVKhkvyBmtApXi0Xd8S9GMWYxevByovZvtSypQQ6+ZB+fpN07znX55d41FJoF5IvbDy1OzdWQFtNkI17I/Shwe/UmyVAYpk/pglia8n66VuGHaliAWGuyJgc23zH8goCg98MKXjXWM1+33I3dm8=
