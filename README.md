@@ -1,38 +1,48 @@
-Role Name
-=========
+# Ansible Role: Brew File
 
-A brief description of the role goes here.
+This makes sure that brew-file is installed and then, if you have a Brewfile already, will run brew file against it.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Requires homebrew to be installed on the target macOS machine.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, and there's only one default variable. (see `defaults/main.yml`) The `brewfile_new_install: yes` is if you've never used brewfile, and/or you want a new BrewFile file.
+
+  brewfile_new_install: yes
+
+The dotfile variable below is for if/where you want to insert the `brew-wrap` function lines, so `brew file` is included when running `brew`. It is not required
+
+  brewfile_brewwrap_dotfile: "~/.bash_profile"
+
+The `brewfile_git_repo` is where you set the github repo that you want your BrewFile to sync with. This will create a new github repo under the `username/repo-name` format. Not required.
+
+  brewfile_git_repo: "jpartain89/Brewfile-MacBook"
+
+The `brewfile_github_password` is for setting the `brewfile_git_repo`, as it needs your github password to create the repo. Only required if setting `brewfile_git_repo`
+
+  brewfile_github_password: "xxyyzz"
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+XCode needs to be installed on the target macOS machine:
 
-Example Playbook
-----------------
+  xcode-select --install
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+And then follow the prompts. This will install Apple's `git` binary.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Example Playbook
 
-License
--------
+  - hosts: all
+    roles:
+       - { role: jpartain89.ansible-brew-file }
 
-BSD
+## License
 
-Author Information
-------------------
+GPL-3.0
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Author Information
+
+This role was created in 2016 by [Justin Partain](https://jpcdi.com). 

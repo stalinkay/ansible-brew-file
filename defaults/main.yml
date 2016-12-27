@@ -1,2 +1,4 @@
 ---
 # defaults file for ansible-brew-file
+
+brewfile_new_install: yes
