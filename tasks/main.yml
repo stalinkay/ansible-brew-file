@@ -12,7 +12,7 @@
 
 - name: Tap rcmdnk/file Homebrew Repo
   homebrew_tap:
-    name: rcmdnk/files
+    name: rcmdnk/file
     state: present
 
 - name: Install Brew-File
