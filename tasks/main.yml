@@ -35,7 +35,7 @@
   register: brewfile_stat
 
 - name: Set brew-file git Repo
-  command: 'brew-file set_repo -r {{ brewfile_git_repo }} -y'
+  expect: 'brew-file set_repo -r {{ brewfile_git_repo }} -y'
   responses:
     GitHub password: "{{ brewfile_github_password }}"
   when:
