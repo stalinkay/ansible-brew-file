@@ -2,9 +2,9 @@ sudo: required
 language: objective-c
 osx_image: xcode8.2
 before_install:
-- curl -sL https://raw.githubusercontent.com/Homebrew/install/master/uninstall | bash -s -- -f
-#- chmod +x /tmp/uninstall
-#- "/tmp/uninstall -f"
+- curl -fsSL -o /tmp/uninstall https://raw.githubusercontent.com/Homebrew/install/master/uninstall
+- chmod +x /tmp/uninstall
+- /tmp/uninstall -f
 - sudo rm -rf /usr/local/Homebrew
 - sudo rm -rf /usr/local/Caskroom
 - sudo rm -rf /usr/local/bin/brew
