@@ -16,6 +16,7 @@ before_install:
 - sudo rm -rf /usr/local/Cellar || true
 - sudo rm -rf /usr/local/bin/brew || true
 install:
+- sudo easy_install pip
 - sudo -H pip install --upgrade ansible
 - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 script:
