@@ -8,7 +8,7 @@ matrix:
     osx_image: xcode8.3
 
 before_install:
-- '/usr/bin/ruby -e -q -f "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"'
+- '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall -q -f)"'
 #- chmod +x /tmp/uninstall
 #- /tmp/uninstall -f
 - sudo rm -rf /usr/local/Homebrew || true
