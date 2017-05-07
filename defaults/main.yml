@@ -2,3 +2,6 @@
 # defaults file for ansible-brew-file
 
 brewfile_new_install: yes
+
+brewfile_brewwrap_dotfile: '~/.bash_profile'
+brewfile_git_repo: 

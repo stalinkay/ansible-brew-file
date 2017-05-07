@@ -20,7 +20,9 @@
   homebrew:
     name: rcmdnk/file/brew-file
     state: latest
-    update_homebrew: yes
+
+- name: Run brew file init
+  command: 'brew file init'
 
 - name: Confirm brew-wrap Is In Dotfile
   blockinfile:
@@ -35,7 +37,7 @@
 - stat: path=~/.brewfile
   register: brewfile_stat
 
-- name: Set brew-file git Repo
+- name: Set brew-file Git Repo
   expect:
     command: 'brew-file set_repo -r {{ brewfile_git_repo }} -y'
     responses:
