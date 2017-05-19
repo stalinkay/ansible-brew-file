@@ -20,6 +20,7 @@
   homebrew:
     name: rcmdnk/file/brew-file
     state: latest
+  register: brew_file_install
 
 - name: Run brew file init
   expect:
@@ -48,3 +49,4 @@
   with_items:
     - "install --preupdate"
     - "update"
+  when: brew_file_install.changed
