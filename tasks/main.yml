@@ -44,7 +44,7 @@
   register: brewfile_stat
 
 - name: Install/Update Homebrew Apps from Brewfile
-  shell: 'brew file {{ item }}'
+  shell: 'brew file {{ item }} -y'
   with_items:
     - "install --preupdate"
     - "update"
