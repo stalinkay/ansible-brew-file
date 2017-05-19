@@ -22,7 +22,13 @@
     state: latest
 
 - name: Run brew file init
-  command: 'brew file init'
+  expect:
+    command: 'brew file init -r {{ brewfile_git_repo }} -y'
+    responses: 
+      GitHub password: "{{ brewfile_github_password }}"
+  when:
+    - brewfile_git_repo is defined
+    - brewfile_github_password is defined
 
 - name: Confirm brew-wrap Is In Dotfile
   blockinfile:
@@ -37,24 +43,8 @@
 - stat: path=~/.brewfile
   register: brewfile_stat
 
-- name: Set brew-file Git Repo
-  expect:
-    command: 'brew-file set_repo -r {{ brewfile_git_repo }} -y'
-    responses:
-      GitHub password: "{{ brewfile_github_password }}"
-  when:
-    - brewfile_git_repo is defined
-    - brewfile_github_password is defined
-
-- name: Initialize brew-file If First Time
-  shell: 'brew file init'
-  when:
-    - brewfile_new_install == "yes"
-    - ( brewfile_stat.stat.isdir is defined and brewfile_stat.stat.isdir )
-
 - name: Install/Update Homebrew Apps from Brewfile
-  shell: 'brew file "{{ item }}"'
+  shell: 'brew file {{ item }}'
   with_items:
     - "install --preupdate"
     - "update"
-  when: brewfile_new_install == "no"
