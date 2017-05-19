@@ -1,6 +1,8 @@
-# Ansible Role: Brew File
+# jpartain89.brew-file
 
-[![Build Status](https://travis-ci.org/jpartain89/ansible-brew-file.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-brew-file)
+| **Travis-CI** |
+| ------ |
+| [![Build Status](https://travis-ci.org/jpartain89/ansible-brew-file.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-brew-file) |
 
 This makes sure that brew-file is installed and then, if you have a Brewfile already, will run brew file against it.
 
